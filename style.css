@@ -3,10 +3,8 @@ body{
     width:100%;
     overflow:hidden;
     background: -webkit-radial-gradient(top left,#029153 ,#024528);
-    
-    
     font-family: 'Inconsolata', monospace;
-
+    color: black;
 }
 .turn-table{
     margin: 0 auto;
@@ -15,7 +13,6 @@ body{
     width: 650px;
     perspective: 500px;
     transform: rotateY(-0deg);
-    
 }
 
 .table-top{
@@ -185,12 +182,13 @@ body{
     height: 20px;
     display: inline-block;
     border: 1px solid #025D36;
+    margin-right: 4px;
 }
 .highlight{
     background-color: aqua;
 }
 .space{
-    min-width: 80px;
+    min-width: 75px;
 }
 .keys{
     background-color: aqua;
@@ -244,16 +242,3 @@ body{
     height: 25px;
     border: 1px solid black;
 }
-
-/**
-#slider{
-    position: absolute;
-    top: 550px;
-    left: 50%;
-    font-size: 20px;
-    transform: translate(-50%);
-    width: 50%;
-    height: 10px;
-    z-index: 5;
-}
-**/

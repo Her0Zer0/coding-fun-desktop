@@ -1,150 +1,149 @@
 
+window.onload = () => {
+    let cursor = document.getElementById("cursor"), 
+        cursorState = true,
+        cursorAtion = setInterval(()=>{
+            if(cursorState){
+                cursor.style.display = "none";
+                cursorState = false;
+            }else{
+                cursor.style.display = "block";
+                cursorState = true;
+            }
+        }, 500);
 
-$(document).ready(function(){
-    
-    //set the cursor to blink every sec on and then a sec and off again
-    
-    var cursorState = true;
-    var cursorAction = setInterval(function(){
-        if(cursorState){
-            $("#cursor").hide();
-            cursorState = false;
-        }else{
-            $("#cursor").show();
-            cursorState = true;
-        }
-    },500);
-    
-    
-    helloWorld();
-    setTimeout(function(){sectionText();},3000);
-    setTimeout(function(){raiseBar();},5000);
-    setTimeout(function(){phoneCall();},10000);
-    playKeyboard();
-    
-    var helloText = setInterval(function(){
-        helloWorld();
-        setTimeout(function(){sectionText();},3000);
-        setTimeout(function(){raiseBar();},5000);
-        setTimeout(function(){phoneCall();},10000);
-        
-    },30000);
-    
-    
-//    $("#slider").slider({
-//        min:0,
-//        max:360
-//        
-//    });
-    
-    
-    
-
-    
-    
-   
-    
-    function helloWorld(){
-        
-        var text = ["H","e","l","l","o"," ","W","o","r","l","d","!"];
-        
-        var count = 0;
-        
-            document.getElementById('hello').innerHTML = " ";
-        
-        var action = setInterval(function(){
-            document.getElementById("hello").innerHTML += text[count];
-            count++;
-            
-            //console.log(count);
-            
-            if(count >= 12){
-                clearInterval(action);
-                count = 0;
-            }
-        },150);// 18 secs
-        
-    }
-    
-    function sectionText(){
-        var count = 0;
-        var num_of_counts = 0;
-        var textArray = ["T","h","i","s"," ","i","s"," ","s","o","m","e"," ","t","e","x","t"," ","t","h","a","t"," ","w","i","l","l"," ","n","e","e","d", " ", "t","o", "g","o"," ","i","n","t","o"," ","s","o","m","e"," ","s","e","c","t","i","o","n"," ","h","e","r","e","!"];
-        
-        document.getElementById("text").innerHTML = " ";
-        
-        var sectionAction = setInterval(function(){
-            document.getElementById("text").innerHTML+=textArray[count];
-            count++;
-            if(count >= 60){
-                count = 0;
-                num_of_counts++;
-            }
-            
-            if(num_of_counts >= 4){
-                clearInterval(sectionAction);
-                num_of_counts = 0;
-                
-            }
-        },50);//120 secs
-        
-    }
-    
-    function playKeyboard(){
-        
-        
-        //select a random id from the array and change its color
-        var keys = ["#k1", "#k2","#k3","#k4","#k5","#k6","#k7","#k8","#k9","#k10","#k11","#k12","#k13","#k14","#k15","#k16","#k17","#k18","#k19","#k20","#k21"];
-        
-        setInterval(function(){
-            var num = Math.round(Math.random()*21);
-            $(".keys").css("opacity", "1");
-            $(keys[num]).animate({"opacity" : "0.2"},200);
-            
-            
-           // console.log(num);
-        },200);
-        
-        
-    }
-    
-    function phoneCall(){
-        var ring;
-        count = 0;
-            
-            var action = setInterval(function(){
-        
-                $(".cell-case ul").css("opacity", "0.2");
-                $(".cell-case ul").animate({"opacity": "1"},300);
-                
+    let hello = document.getElementById("hello"),
+        helloWorld = (str) => {
+            hello.textContent = "";
+            var count = 0;
+            var action = setInterval(()=>{
+                hello.textContent += str[count];
                 count++;
-                
-                if(count >= 6){
+                if(count >=12){
                     clearInterval(action);
                     count = 0;
                 }
-            },2000);          
-                
+            }, 150);
     }
-    
-    function raiseBar(){
-        var bar=["#line1", "#line2", "#line3", "#line4"];
-        var px = 0;
-        var num = 0;
-        
-        $(".chart-lines").css("width", "0px");
-        var action = setInterval(function(){
-            px++;
-            $(bar[num]).css({"width": px + "px"});
-            if(px >= 30){
-                px = 0;
-                num++;
-            }
+
+    let text = document.getElementById("text"), 
+        setTextSection = (str, num_to_run) => {
+            text.textContent = "";
+            var count = 0,
+                num_of_runs = 0,
+                sectionAction = setInterval(()=>{
+                    text.textContent += str[count];
+                    count++;
+                    if(count >= str.length){
+                        count = 0;
+                        num_of_runs++;
+                    }
+
+                    if(num_of_runs >= num_to_run){
+                        clearInterval(sectionAction);
+                        num_of_runs = 0;
+                    }
+                }, 50);
+        };
+
+    let keyboard = document.getElementById("key_container"), 
+        setKeys = (num_of_keys, space_num) => {
             
-            if(num >= 4){
-                clearInterval(action);
+            var html = "";
+            for(var i = 0; i < num_of_keys; i++){
+                if(i == space_num){
+                    html += `<li id="k${i+1}" class="keys space"></li>`;
+                }else{
+                    html += `<li id="k${i+1}" class="keys"></li>`;
+                }
             }
-        },50);
-    }
+            keyboard.innerHTML = html;
+        };
+
+    let keys = keyboard.children;
+    playKeyboard = () => {
+        setInterval(()=>{
+            var num = Math.round(Math.random()*24);
+            
+            for(var i = 0; i < keys.length; i++){
+                keys[i].style.opacity = "1";
+            }
+            document.getElementById(keys[num].id).animate([
+                {"opacity" : "0.2"}
+            ],{
+                duration: 200, 
+                iterations: 1
+            });
+
+        }, 250);
+    };
+
+    let cell = document.querySelector(".cell-case ul"),
+        phoneCall = () => {
+        var count = 0;
+        var action = setInterval(()=>{
+            cell.style.opacity = "0.2";
+            cell.animate([{"opacity": "1"}], {duration: 200, iterations: 1});
+
+            count++;
+            if(count >= 6){
+                clearInterval(action);
+                count = 0;
+                cell.style.opacity = "1";
+            }
+
+        }, 2000);
+    };
+
+    let chart = document.querySelector("#graph_container"), 
+        createData = (bar_num) => {
+            var html = "";
+            for(var i=0; i < bar_num; i++){
+                html += `<li id="line${i + 1}" class="chart-lines"></li>`;
+            }
+            chart.innerHTML = html;
+        };
+
+    let bars = chart.children,
+        raiseBar = () => {
+            for(var i = 0; i < bars.length; i++){
+                bars[i].style.width = "0px";
+            }
+
+            var num = 0, 
+                px = 0,
+                max = 30, 
+                action = setInterval(()=>{
+                    px++;
+                    bars[num].style.width = `${px}px`;
+                    if(px >= max){
+                        px = 0;
+                        num++;
+                    }
+                    if(num >= bars.length){
+                        clearInterval(action);
+                    }
+                }, 50);
+        };
     
-});
+    let someContext = "This is some text that will need to go in this section here! ";
+    let helloContext = "Hello World!";
+    //generate elements, etc.
+    setKeys(25, 21);
+    createData(4);
+    //start animations
+    playKeyboard();
+    
+    helloWorld(helloContext);
+    setTextSection(someContext, 8);
+    phoneCall();
+    raiseBar();
+
+    var main_loop = setInterval(()=>{
+        console.log("starting next loop");
+        helloWorld(helloContext);
+        setTimeout(() => setTextSection(someContext, 8), 3000);
+        setTimeout(() => raiseBar(), 5000);
+        setTimeout(() => phoneCall(), 10000);
+    }, 30000);
+};
