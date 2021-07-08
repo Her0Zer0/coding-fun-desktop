@@ -2,4 +2,4 @@
 
 This is a simple animation of busy desktop operation :)
 
-![app demo](./demo.gif)
+![desktop animation](./animation.gif)
